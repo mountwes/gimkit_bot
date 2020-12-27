@@ -13,6 +13,8 @@ wait = WebDriverWait(driver, 10)
 
 correct_answers = []
 money = 0
+streak_level = 1
+next_streak_level_money = 20  # determine automatically
 
 def clicker(xpath):
   wait.until(EC.element_to_be_clickable((By.XPATH, xpath)))
@@ -42,9 +44,6 @@ def get_answers():
     answers.append(driver.find_element_by_xpath(answer_choice % (i+1)).text)
   return(answers)
 
-def add_question_answer(question, answer):
-  correct_answers.append(gimkit_question(question, answer))
-
 def get_response():
   response = driver.find_element_by_xpath(response_text).text[0]
   if response == "+":
@@ -53,12 +52,19 @@ def get_response():
     clicker(view_correct_answer)
     return(driver.find_element_by_xpath(correct_answer_text).text)
 
+def get_money():
+  money_string = driver.find_element_by_xpath(money_text).text
+  return(int(money_string.replace("-", "").replace("$", "").replace(",", "")))  # don't remove negative sign
+
+def add_question_answer(question, answer):
+  correct_answers.append(gimkit_question(question, answer))
+
 def answer_question():
   question = get_question()
   answers = get_answers()
   for i in range(len(correct_answers)):
     if correct_answers[i].question == question:
-      clicker(answer_choice % (answers.index(correct_answers[i].answer)+1))
+      clicker(answer_choice % (answers.index(correct_answers[i].answer)+1))  # add unique id to questions, search all answers to questions that match
       sleep(0.5)  # fix so that program waits until element is interactable
       clicker(correct_continue_button)
       return(0)
@@ -78,7 +84,22 @@ def answer_question():
   return(1)
 
 def shop():
-  clicker(correct_continue_button)
+  global money
+  global next_streak_level_money
+  global streak_level
+  if streak_level < 10:
+    if money >= next_streak_level_money:
+      clicker(three_lines_button)
+      clicker(shop_button)
+      clicker(streak_bonus_button)
+      if streak_level < 9:
+        clicker(streak_level_text % (streak_level+2))
+        money_string = driver.find_element_by_xpath(streak_level_money_text).text
+        next_streak_level_money = int(money_string[9:].replace("-", "").replace("$", "").replace(",", ""))
+      clicker(streak_level_text % (streak_level+1))
+      clicker(buy_button)
+      clicker(continue_to_questions_button)
+      streak_level += 1
 
 def delay():
   sleep_time = uniform(0.5, 1.5)
@@ -87,9 +108,15 @@ def delay():
   print("Resuming")
 
 def play():
+  global money
   WebDriverWait(driver, 300).until(EC.element_to_be_clickable((By.XPATH, three_lines_button)))
   print("Game is starting...")
   while True:
-    answer_question()
+    money = get_money()
+    print(f"Money: ${money}")
+    to_shop = answer_question()
+    if to_shop == 0:
+      shop()
     delay()
-      
+    # handle end of game
+    # claps
