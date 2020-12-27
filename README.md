@@ -2,7 +2,7 @@
 
 A bot written in python that plays the educational game Gimkit
 
-## Depedencies
+## Dependencies
 
 python3.8
 
