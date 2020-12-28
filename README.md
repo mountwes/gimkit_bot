@@ -1,6 +1,8 @@
 # gimkit_bot
 
-A bot written in python that plays the educational game Gimkit
+A bot written in python that plays the educational game Gimkit.
+
+Docker support coming soon!
 
 ## Dependencies
 
