@@ -2,8 +2,6 @@
 
 A bot written in python that plays the educational game Gimkit.
 
-Docker support coming soon!
-
 ## Dependencies
 
 python3.8
@@ -27,3 +25,13 @@ Make `bot.py` executable
 Run `bot.py` and specify a game code and name
 
 `./bot.py <code> <name>`
+
+### Docker
+
+Build docker image
+
+`docker build -t gimkit_bot .`
+
+Run docker image
+
+`docker run --rm --name gimkit_bot -e CODE=<code> -e NAME=<name> -it gimkit_bot`
