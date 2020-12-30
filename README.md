@@ -10,6 +10,8 @@ python3.8
 
 selenium
 
+chrome
+
 [chromedriver](https://chromedriver.chromium.org/)
 
 ## Usage

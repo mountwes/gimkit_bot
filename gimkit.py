@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -7,8 +8,10 @@ from random import uniform
 from xpaths import *
 from gimkit_question import gimkit_question
 
+options = Options()
+options.add_argument("--headless")
 chromedriver_location = "/usr/bin/chromedriver"
-driver = webdriver.Chrome(chromedriver_location)
+driver = webdriver.Chrome(chromedriver_location, options=options)
 wait = WebDriverWait(driver, 10)
 
 correct_answers = []
@@ -26,7 +29,6 @@ def typer(xpath, string):
 
 def join_game(code, name):
   gimkit = "https://www.gimkit.com/live"
-  #driver.maximize_window()
   driver.get(gimkit)
   typer(game_code_input, code)
   clicker(join_game_button_1)
@@ -103,7 +105,7 @@ def shop():
 
 def delay():
   sleep_time = uniform(0.5, 1.5)
-  print(f"Sleeping for {sleep_time}s")
+  print(f"Sleeping for {str(round(sleep_time,3))}s")
   sleep(sleep_time)
   print("Resuming")
 
