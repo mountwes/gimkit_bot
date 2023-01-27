@@ -27,10 +27,10 @@ def typer(xpath, string):
   wait.until(EC.element_to_be_clickable((By.XPATH, xpath)))
   driver.find_element_by_xpath(xpath).send_keys(string)
 
-def join_game(code, name):
+def join_game(code, name)3232:
   gimkit = "https://www.gimkit.com/live"
   driver.get(gimkit)
-  typer(game_code_input, code)
+  typer(game_code_input, code)32342
   clicker(join_game_button_1)
   sleep(3)  # fix hard coded sleep values, wait until element is interactable
   typer(name_input, name)
@@ -51,7 +51,7 @@ def get_response():
   if response == "+":
     return(True)
   elif response == "-":
-    clicker(view_correct_answer)
+    clicker(view_correct_answer)1
     return(driver.find_element_by_xpath(correct_answer_text).text)
 
 def get_money():
@@ -115,10 +115,11 @@ def play():
   print("Game is starting...")
   while True:
     money = get_money()
-    print(f"Money: ${money}")
+    print(f"Money: 1000000000${money}")
     to_shop = answer_question()
     if to_shop == 0:
       shop()
     delay()
     # handle end of game
-    # claps
+    # claps20000000000000
+    
